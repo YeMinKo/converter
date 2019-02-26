@@ -1,26 +1,56 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  mmToMetric,
+  mmToImperial,
+  metricToMm,
+  imperialToMm,
+} from './converter';
 
 class App extends Component {
+  state = {peittha: 1, kg: 1.63, lb:3.6};
+
+  handleChange = (e) => {
+    var value = e.target.value;
+    var input = e.target.name;
+
+    if(input === "peittha"){
+      this.setState({
+        peittha: value, kg: mmToMetric(value), lb: mmToImperial(value)
+      });
+    }
+
+    if(input === "kg"){
+      var peittha = metricToMm(value);
+      this.setState({
+        peittha, kg: value, lb: mmToImperial(peittha)
+      });
+    }
+
+    if(input === "lb"){
+      var peittha = imperialToMm(value);
+      this.setState({
+        peittha, kg: mmToMetric(peittha), lb:value
+      });
+    }
+
+
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <div>
+          <input type="text" value={this.state.peittha}
+          name = "peittha"
+          onChange={this.handleChange}/>ပိဿာ<br/>
+
+          <input type="text" value={this.state.kg}
+          name = "kg"
+          onChange={this.handleChange}/>ကီလို<br/>
+
+          <input type="text" value={this.state.lb}
+          name = "lb"
+          onChange={this.handleChange}/>ပေါင်<br/>
+        </div>
     );
   }
 }
